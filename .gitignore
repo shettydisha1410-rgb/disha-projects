@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+.vscode/
+*.sqlite3
+cleaned_dataset.csv
+delhi_ncr_aqi_dataset.csv
