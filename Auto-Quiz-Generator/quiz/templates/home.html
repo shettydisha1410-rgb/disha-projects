@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto Quiz Generator</title>
+    <style>
+        body { font-family: Arial; background: #f2f2f2; text-align: center; }
+        .container { width: 60%; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px gray; }
+        textarea { width: 90%; height: 150px; padding: 10px; }
+        button { padding: 10px 20px; background: green; color: white; border: none; margin-top: 10px; cursor: pointer; }
+        .question { text-align: left; margin-top: 15px; }
+        .score { margin-top: 20px; font-size: 20px; color: blue; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📘 Auto Quiz Generator</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <textarea name="paragraph" placeholder="Enter paragraph..."></textarea><br>
+        <button type="submit">Generate Quiz</button>
+    </form>
+    <hr>
+    {% if questions %}
+    <form method="POST">
+        {% csrf_token %}
+        <h2>Generated Quiz</h2>
+        {% for q in questions %}
+            <div class="question">
+                <p><b>{{ forloop.counter }}. {{ q.question }}</b></p>
+                {% for opt in q.options %}
+                    <input type="radio" name="q{{ forloop.parentloop.counter }}" value="{{ forloop.counter0 }}">
+                    {{ opt }} <br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit">Submit Quiz</button>
+    </form>
+    {% endif %}
+    {% if score is not None %}
+        <div class="score">Your Score: {{ score }} / {{ questions|length }}</div>
+    {% endif %}
+</div>
+</body>
+</html>
